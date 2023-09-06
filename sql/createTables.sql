@@ -1,15 +1,15 @@
-CREATE TABLE cities (
+CREATE TABLE "Cities" (
   city_id SERIAL NOT NULL PRIMARY KEY,
   city_name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE bars (
+CREATE TABLE "Bars" (
   bar_id SERIAL NOT NULL PRIMARY KEY,
   bar_name VARCHAR(100) NOT NULL,
   city_id INTEGER REFERENCES cities(city_id) ON DELETE CASCADE
 );
 
-CREATE TABLE  lawyers (
+CREATE TABLE  "Lawyers" (
   lawyer_id SERIAL NOT NULL PRIMARY KEY,
   first_name VARCHAR(100) NOT NULL,
   last_name VARCHAR(100) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE  lawyers (
   password_reset_code VARCHAR(255)
 );
 
-CREATE TABLE lawyer_profiles (
+CREATE TABLE "LawyerProfiles" (
   lawyer_id INTEGER PRIMARY KEY REFERENCES lawyers(lawyer_id) ON DELETE CASCADE NOT NULL,
   linkedin_url VARCHAR(255),
   description TEXT,
@@ -30,7 +30,7 @@ CREATE TABLE lawyer_profiles (
   rating_num INTEGER DEFAULT 0
 );
 
-CREATE TABLE star_ratings (
+CREATE TABLE "StarRatings" (
   rating_id SERIAL NOT NULL PRIMARY KEY,
   rating INT NOT NULL,
   from_lawyer_id INT NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE star_ratings (
   FOREIGN KEY (to_lawyer_id) REFERENCES lawyers (lawyer_id) ON DELETE CASCADE
 );
 
-CREATE TABLE jobs (
+CREATE TABLE "Jobs" (
   job_id SERIAL NOT NULL PRIMARY KEY,
   description TEXT NOT NULL,
   start_date DATE,
@@ -50,7 +50,7 @@ CREATE TABLE jobs (
   created_at TIMESTAMP DEFAULT NOW()
 );
 
-CREATE TABLE offers (
+CREATE TABLE "Offers" (
   offer_id SERIAL NOT NULL PRIMARY KEY,
   from_lawyer_id INTEGER REFERENCES lawyers(lawyer_id) ON DELETE CASCADE,
   to_lawyer_id INTEGER REFERENCES lawyers(lawyer_id) ON DELETE CASCADE,
@@ -58,7 +58,7 @@ CREATE TABLE offers (
   state VARCHAR(20) NOT NULL DEFAULT 'waiting' CHECK (state IN ('accepted', 'waiting', 'rejected'))
 );
 
-CREATE TABLE rejected_offers (
+CREATE TABLE "RejectedOffers" (
   rejected_offer_id SERIAL NOT NULL PRIMARY KEY,
   from_lawyer_id INTEGER REFERENCES lawyers(lawyer_id) ON DELETE CASCADE,
   to_lawyer_id INTEGER REFERENCES lawyers(lawyer_id) ON DELETE CASCADE,
